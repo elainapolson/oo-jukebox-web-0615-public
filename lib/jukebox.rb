@@ -1,55 +1,66 @@
 class Jukebox
+attr_accessor :songs
 
-  def initialize(songs)
-    @songs = songs
-  end
+ def initialize(songs)
+   @songs = songs
+ end
 
-  def call
-    help
-    list
-    play
-  end
+ def help
+   puts "Here are the options available:"
+   puts "input 'help' to return these options."
+   puts "input 'exit' to close this program."
+   puts "input 'list' to see the list of songs available."
+   puts "input 'play' to play a song."
+ end
 
-  def help
-    puts "I accept help, play, list, and exit"
-  end
+ def list
+   puts self.songs
+ end
 
-  def list
-    @songs.each.with_index(1) do |song, index|
-      puts "#{index}. #{song}"
-    end 
-  end 
+ def play_without_argument
+   
+   puts "What song would you like to play?"
+   input = gets.strip
+   if input.to_i.to_s == input
+     puts "Now Playing: #{songs[input.to_i-1]}"
+   elsif songs.include?(input)
+     puts "Now Playing: #{input}"
+   else
+     puts "Invalid input!"
+   end
+ end
+
+ def play(*song)
+   if song == []
+     play_without_argument
+   elsif song.first.to_i.to_s == song.first
+     puts "Now Playing: #{songs[song.first.to_i-1]}"
+   elsif songs.include?(song.first)
+     puts "Now Playing: #{song.first}"
+   else
+     puts "Invalid input!"
+   end
+ end
+ 
+ def call
+   user_input = nil
+   while user_input != 'exit'
+     user_input = gets.strip
+     array = user_input.split(" ")
+     if array.length > 1
+       play(array[1..-1].join(" "))
+     else
+     case user_input
+     when 'help'
+       help
+     when 'list'
+       list
+     when "play"
+      play
+     end
+    end
+   end
+end
 
 
-  def play(song = "")
-    if song == ""
-      puts "Now Playing: Phoenix - 1901"
-    elsif @songs.include?(song)
-      puts "Now Playing: #{song}"
-    else
-      puts "Now Playing: #{@songs[song.to_i-1]}"
-    end  
-  end 
-
-  def exit_jukebox
-    puts "Goodbye"
-  end
-
-
-
-  # def run(songs)
-  #   puts "Please enter a command:"
-  #   command = gets.strip.downcase
-    
-  #     case command
-  #     when "help"
-  #       help
-  #     when "list"
-  #       list(songs)
-  #     when "play"
-  #       play(songs)
-  #     when "exit"    
-  #       exit_jukebox
-  #     end
-  # end
 end
