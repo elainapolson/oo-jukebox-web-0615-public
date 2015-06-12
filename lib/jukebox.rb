@@ -11,7 +11,7 @@ class Jukebox
   end
 
   def help
-    puts "(?=.*help)(?=.*list)(?=.*play)(?=.*exit)"
+    puts "I accept help, play, list, and exit"
   end
 
   def list
